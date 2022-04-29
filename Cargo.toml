@@ -22,7 +22,8 @@ name = "alloc-cortex-m"
 version = "0.4.2"
 
 [dependencies]
-cortex-m = "0.7.2"
+cortex-m = { git = "https://github.com/sphw/cortex-m.git", branch = "feature/add-itns-nvic" }
+
 
 [dependencies.linked_list_allocator]
 default-features = false
