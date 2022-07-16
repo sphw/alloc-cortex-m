@@ -53,7 +53,7 @@ impl CortexMHeap {
     ///
     /// - This function must be called exactly ONCE.
     /// - `size > 0`
-    pub unsafe fn init(&self, start_addr: usize, size: usize) {
+    pub unsafe fn init(&self, start_addr: *mut u8, size: usize) {
         cortex_m::interrupt::free(|cs| {
             self.heap.borrow(*cs).borrow_mut().init(start_addr, size);
         });
