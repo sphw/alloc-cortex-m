@@ -10,6 +10,7 @@
 
 use core::alloc::{GlobalAlloc, Layout};
 use core::cell::RefCell;
+use core::mem::MaybeUninit;
 use core::ptr::{self, NonNull};
 
 use cortex_m::interrupt::Mutex;
@@ -53,9 +54,9 @@ impl CortexMHeap {
     ///
     /// - This function must be called exactly ONCE.
     /// - `size > 0`
-    pub unsafe fn init(&self, start_addr: *mut u8, size: usize) {
-        cortex_m::interrupt::free(|cs| {
-            self.heap.borrow(*cs).borrow_mut().init(start_addr, size);
+    pub fn init(&self, mem: &'static mut [MaybeUninit<u8>]) {
+        cortex_m::interrupt::free(move |cs| {
+            self.heap.borrow(*cs).borrow_mut().init_from_slice(mem);
         });
     }
 
